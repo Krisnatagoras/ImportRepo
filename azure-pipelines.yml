@@ -19,6 +19,15 @@ steps:
   inputs:
     verbose: false
 
+- task: SonarCloudPrepare@1
+  displayName: 'Prepare analysis configuration'
+  inputs:
+    SonarCloud: 'SonarCloud'
+    organization: 'krisnatagoras'
+    scannerMode: 'MSBuild'
+    projectKey: 'Krisnatagoras_WebGoat'
+    projectName: 'WebGoat'
+
 - task: Maven@1
   displayName: Maven
 
@@ -37,3 +46,9 @@ steps:
   displayName: 'Publish Artifact'
   inputs:
     PathtoPublish: '$(build.artifactstagingdirectory)'
+
+- task: SonarCloudAnalyze@1
+  displayName: 'Run SonarCloud analysis'
+
+- task: SonarCloudPublish@1
+  displayName: 'Publish results on build summary'
